@@ -1,99 +1,176 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Secure Auth Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
+This repository contains the **backend** implementation of a secure authentication system. It provides robust and scalable user authentication functionality using **NestJS** and integrates with MongoDB for data storage. The backend emphasizes security, modularity, and maintainability.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The accompanying **frontend** repository can be found [here](https://github.com/shreyansbhatt/secure-auth-frontend).
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
+- **User Authentication**:
+  - Registration and login endpoints.
+  - Password hashing using `bcrypt`.
+  - Token-based authentication using `JWT`.
+- **Input Validation**: Ensures data integrity through `class-validator`.
+- **Secure API**:
+  - Helmet for secure HTTP headers.
+  - CORS configuration to handle cross-origin requests.
+- **Scalable Architecture**:
+  - Modular structure for future extensibility.
+  - MongoDB integration using Mongoose.
 
-## Project setup
+---
 
-```bash
-$ npm install
+## Tech Stack
+- **NestJS**: Framework for building scalable Node.js applications.
+- **MongoDB**: Database for secure user data storage.
+- **Mongoose**: ODM (Object-Document Mapping) library for MongoDB.
+- **JWT**: For secure user session management.
+- **Bcrypt**: For hashing passwords.
+- **Helmet**: For securing HTTP headers.
+- **CORS**: For enabling cross-origin requests.
+
+---
+
+## Best Practices Followed
+As a **Solution Architect**, the backend design adheres to the following principles:
+
+### **Security**
+1. **Password Hashing**: All passwords are securely hashed using `bcrypt` with 12 salt rounds.
+2. **Token-Based Authentication**: JSON Web Tokens (JWT) are used to authenticate users, minimizing session vulnerabilities.
+3. **Input Validation**: User input is validated using `class-validator` to ensure data integrity.
+4. **Secure HTTP Headers**: Configured `Helmet` to mitigate common web vulnerabilities.
+5. **Cross-Origin Resource Sharing (CORS)**: Configured to allow only trusted origins.
+
+### **Scalability**
+1. **Modular Design**: Each feature is encapsulated in its own module (`auth`, `user`), ensuring clean separation of concerns.
+2. **MongoDB Integration**: Mongoose is used to model user data, allowing flexibility for future enhancements.
+
+### **Code Quality**
+1. **Logging**: Integrated logging using the NestJS `Logger` for tracking key events and errors.
+2. **Error Handling**: Graceful error responses with meaningful messages.
+
+---
+
+## Project Setup
+
+### Prerequisites
+- **Node.js**: Ensure Node.js is installed (v16+ recommended).
+- **MongoDB**: MongoDB server running locally or in the cloud.
+
+---
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/shreyansbhatt/secure-auth-backend.git
+   cd secure-auth-backend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory with the following configuration:
+   ```env
+   PORT=4000
+   MONGO_URI=mongodb://127.0.0.1:27017/nest-auth
+   JWT_SECRET=your_secret_key
+   ```
+   - Replace `your_secret_key` with a secure key for signing JWTs.
+
+---
+
+### Running the Application
+1. Start the development server:
+   ```bash
+   npm run start:dev
+   ```
+
+2. The backend will run at:
+   ```plaintext
+   http://localhost:4000
+   ```
+
+---
+
+## API Endpoints
+
+### **Authentication**
+| Method | Endpoint       | Description               |
+|--------|----------------|---------------------------|
+| POST   | `/auth/login`  | Authenticates a user and returns a JWT token. |
+| POST   | `/auth/register` | Registers a new user. |
+
+### **Request/Response Example**
+#### **Registration**
+- **Request**:
+  ```json
+  {
+    "email": "test@example.com",
+    "name": "Test User",
+    "password": "Password123!"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "User registered successfully"
+  }
+  ```
+
+#### **Login**
+- **Request**:
+  ```json
+  {
+    "email": "test@example.com",
+    "password": "Password123!"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "access_token": "jwt_token_here"
+  }
+  ```
+
+---
+
+## Folder Structure
+```plaintext
+backend/
+├── src/
+│   ├── auth/                # Authentication module
+│   │   ├── auth.controller.ts  # Handles authentication endpoints
+│   │   ├── auth.service.ts     # Handles authentication logic
+│   │   ├── auth.module.ts      # Auth module definition
+│   ├── user/                # User module
+│   │   ├── user.schema.ts      # Mongoose schema for User model
+│   │   ├── user.service.ts     # Handles user database interactions
+│   │   ├── user.module.ts      # User module definition
+│   ├── app.module.ts        # Root module
+│   ├── main.ts              # Application entry point
+├── package.json
+├── tsconfig.json
+├── README.md
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Future Enhancements
+1. **Unit Testing**: Add comprehensive test coverage using Jest.
+2. **Role-Based Authorization**: Implement user roles (e.g., Admin, User).
+3. **Rate Limiting**: Protect endpoints against abuse by limiting the number of requests.
+4. **Environment-Specific Configurations**: Use `@nestjs/config` for environment-based settings.
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## Contributing
+Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request.
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
